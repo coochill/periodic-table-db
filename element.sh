@@ -7,26 +7,26 @@ if [[ -z $1 ]]; then
 fi
 
 # Assign the provided argument to a variable for easier reference
-ELEMENT=$1
+ARGUMENT=$1
 
 # Define the PostgreSQL command with connection details
 PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
 
 # Determine if the argument is numeric or not
-if [[ $ELEMENT =~ ^[0-9]+$ ]]; then
+if [[ $ARGUMENT =~ ^[0-9]+$ ]]; then
   QUERY="SELECT elements.atomic_number, elements.symbol, elements.name, properties.atomic_mass, properties.melting_point_celsius, properties.boiling_point_celsius, types.type
   FROM elements INNER JOIN properties ON elements.atomic_number = properties.atomic_number INNER JOIN types on properties.type_id = types.type_id
-  WHERE elements.atomic_number = $ELEMENT;"
+  WHERE elements.atomic_number = $ARGUMENT;"
 
 elif [[ ${#ARGUMENT} -gt 2 ]]; then
   QUERY="SELECT elements.atomic_number, elements.symbol, elements.name, properties.atomic_mass, properties.melting_point_celsius, properties.boiling_point_celsius, types.type
   FROM elements INNER JOIN properties ON elements.atomic_number = properties.atomic_number INNER JOIN types on properties.type_id = types.type_id
-  WHERE elements.name ILIKE '$ELEMENT';"
+  WHERE elements.name ILIKE '$ARGUMENT';"
 
 else
   QUERY="SELECT elements.atomic_number, elements.symbol, elements.name, properties.atomic_mass, properties.melting_point_celsius, properties.boiling_point_celsius, types.type
   FROM elements INNER JOIN properties ON elements.atomic_number = properties.atomic_number INNER JOIN types on properties.type_id = types.type_id
-  WHERE elements.symbol = '$ELEMENT';"
+  WHERE elements.symbol = '$ARGUMENT';"
 fi
 
 # Execute the query and save the result
